@@ -129,9 +129,10 @@ class EchoBot(fchat.FChatClient):
         file.close()
 
         thePhotoPub = room['thePhotoPub']
-        pubModerators = mods
+        pubModerators = mods["pubModerators"]
+        myCharacters = mods["myCharacters"]
 
-        if message[:11] == "!setwelcome" and character == "Mimi Halliwell":
+        if message[:11] == "!setwelcome" and character in myCharacters:
             with open('room.json', 'r+') as file:
                 setWelcome = json.load(file)
                 setWelcome['setWelcome'] = message[12:]
