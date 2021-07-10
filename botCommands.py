@@ -111,7 +111,7 @@ class EchoBot(fchat.FChatClient):
 
         thePhotoPub = room['thePhotoPub']
         setWelcome = room['setWelcome']
-        pubModerators = mods
+        pubModerators = mods["pubModerators"]
 
         if message[:8] == "!welcome" and character in pubModerators:
             super().MSG(thePhotoPub, setWelcome)
