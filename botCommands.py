@@ -6,6 +6,7 @@ class EchoBot(fchat.FChatClient):
     log_filter = ["PIN", "NLN", "FLN", "LIS", "STA", "VAR", "HLO", "CON", "FRL", "IGN", "ADL", "TPN", "LRP"]
 
     def CUB(self, channel, character):
+        character = character.lower()
         with open("report.json", "r+", encoding="utf-8") as file:
             report = json.load(file)
             profile = []
@@ -15,13 +16,12 @@ class EchoBot(fchat.FChatClient):
                 del character
 
     def on_CTU(self, operator, channel, length, character):
+        character = character.lower()
         if channel == "ADH-b2a35a8f84b81b45834a":
             channel = "The Photo Pub"
         with open("report.json", "r+", encoding="utf-8") as file:
             report = json.load(file)
-            profile = []
-            for key in report.keys():
-                profile.append(key)
+            profile = report.keys()
             if charcter not in profile:
                 timeout = {}
                 timeout[character] = {
@@ -43,13 +43,12 @@ class EchoBot(fchat.FChatClient):
 
 
     def on_CKU(self, operator, channel, character):
+        character = character.lower()
         if channel == "ADH-b2a35a8f84b81b45834a":
             channel = "The Photo Pub"
         with open("report.json", "r+", encoding="utf-8") as file:
             report = json.load(file)
-            profile = []
-            for key in report.keys():
-                profile.append(key)
+            profile = report.keys()
             if character not in profile:
                 kick = {}
                 kick[character] = {
@@ -69,13 +68,12 @@ class EchoBot(fchat.FChatClient):
 
 
     def on_CBU(self, operator, channel, character):
+        character = character.lower()
         if channel == "ADH-b2a35a8f84b81b45834a":
             channel = "The Photo Pub"
         with open("report.json", "r+", encoding="utf-8") as file:
             report = json.load(file)
-            profile = []
-            for key in report.keys():
-                profile.append(key)
+            profile = report.keys()
             if character not in profile:
                 banned = {}
                 banned[character] = {
@@ -142,6 +140,24 @@ class EchoBot(fchat.FChatClient):
                 file.truncate()
                 file.close()
             super().PRI(character, "Message Set!")
+
+        if message[:7] == "!report" and character in pubModerators:
+            words = message.split()
+            if words[1].lower() != "test":
+                with open("report.json", "r+", encoding="utf-8") as file:
+                    report = json.load(file)
+                    profile = report.keys()
+                    if words[1].lower() in profile and report["reason"] == "Not Given":
+                        report["reason"] = words[2]
+                    elif words[1].lower() in profile and report["reason"] != "Not Given":
+                        super().PRI(character, "Someone has already given a reason as to this action.")
+                    else:
+                        super().PRI(chracter, "That name does not exist in our records, or you did not use the command"
+                                              "correctly. Please use following format: !report <profile name> <reason>")
+                    file.seek(0)
+                    file.write(json.dumps(report, ensure_ascii=False, indent=2))
+                    file.truncate()
+                    file.close()
 
         # --------------------------------------------------------DEVELOPER COMMANDS---------------------------------------------
         # change the description of the bar

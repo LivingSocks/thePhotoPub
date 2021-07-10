@@ -1,3 +1,10 @@
-[
-
-]
+{
+  "test": {
+    "moderator": "operator",
+    "action": "timeout",
+    "room": "channel",
+    "length (in minutes)": "length",
+    "date/time": "time",
+    "reason": "Not Given"
+    }
+}
