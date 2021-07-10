@@ -13,7 +13,11 @@ class EchoBot(fchat.FChatClient):
             for key in report.keys():
                 profile.append(key)
             if character in profile:
-                del character
+                del report[character]
+            file.seek(0)
+            file.write(json.dumps(report, ensure_ascii=False, indent=2))
+            file.truncate()
+            file.close()
 
     def on_CTU(self, operator, channel, length, character):
         character = character.lower()
